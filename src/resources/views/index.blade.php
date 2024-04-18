@@ -25,6 +25,7 @@
         <th>age</th>
         <th>nationality</th>
     </tr>
+    <!-- authorは二次元配列の一般的な配列。添え字順に$authorに代入、authorからキーを指定して出力 -->
     @foreach ($authors as $author)
     <tr>
         <td>{{$author->id}}</td>
