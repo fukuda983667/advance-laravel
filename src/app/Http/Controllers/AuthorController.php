@@ -34,7 +34,7 @@ class AuthorController extends Controller
         // Request $requestにはGETでキーがid、値が1の連想配列が格納される
         // findメソッドでデータベースから指定のidと一致するレコードを取得
         $author = Author::find($request->id);
-        // クエリ文字のレコードが入力された状態でedit.blade.phpを呼び出す。
+        // formにはクエリ文字(id)と一致するレコードが格納された状態でedit.blade.phpを呼び出す。
         return view('edit', ['form' => $author]);
     }
 
@@ -58,5 +58,34 @@ class AuthorController extends Controller
     {
         Author::find($request->id)->delete();
         return redirect('/');
+    }
+
+    public function find()
+    {
+        return view('find', ['input' => '']);
+    }
+
+    public function search(Request $request)
+    {
+        // $item = Author::where('name', 'LIKE',"%{$request->input}%")->first(); 部分一致
+        $item = Author::where('name', $request->input)->first();
+        // paramは二次元配列。二次元配列をviewに渡すときは可読性の観点から$paramの形で返す。
+        $param = [
+            // 検索欄に入力した文字が残るようにするため
+            'input' => $request->input,
+            // レコードが格納されてる
+            'item' => $item
+        ];
+        return view('find', $param);
+    }
+
+    // Author $authorで引数を用意しており、web.phpの{author}(数字)と一致するIDをもつレコードが
+    // $authorに格納される。という仕様になっている。「暗黙の結合」。動きとしてはeditメソッドに近い。
+    public function bind(Author $author)
+    {
+        $data = [
+            'item'=>$author,
+        ];
+        return view('author.binds', $data);
     }
 }
