@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Author;
 
+use App\Http\Requests\AuthorRequest;
+
 class AuthorController extends Controller
 {
     public function index()
@@ -18,7 +20,9 @@ class AuthorController extends Controller
         return view('add');
     }
 
-    public function create(Request $request)
+    // AuthorRequestクラスで渡ってきた引数$requestを宣言した時点で、バリデーションルールに適合するかを判定される。
+    // バリデーションルールに不適合であれば'errors'を返り値として現在表示中のviewファイルにリダイレクトする。
+    public function create(AuthorRequest $request)
     {
         $form = $request->all();
         // formタグのnameとテーブルのカラム名が一致していればcreateメソッドの引数にそのまま渡せる
@@ -30,7 +34,7 @@ class AuthorController extends Controller
 
     public function edit(Request $request)
     {
-        // /edit?id=1とクライアントからリクエストを送ると、
+        // /edit?id=1とクライアントからリクエストが送られると、
         // Request $requestにはGETでキーがid、値が1の連想配列が格納される
         // findメソッドでデータベースから指定のidと一致するレコードを取得
         $author = Author::find($request->id);
@@ -38,7 +42,7 @@ class AuthorController extends Controller
         return view('edit', ['form' => $author]);
     }
 
-    public function update(Request $request)
+    public function update(AuthorRequest $request)
     {
         $form = $request->all();
         // @csrfにより、csrf対策用のトークンが生成されるため、削除。連想配列の子要素が増えている状態
@@ -81,11 +85,17 @@ class AuthorController extends Controller
 
     // Author $authorで引数を用意しており、web.phpの{author}(数字)と一致するIDをもつレコードが
     // $authorに格納される。という仕様になっている。「暗黙の結合」。動きとしてはeditメソッドに近い。
+    // このメソッドはid検索のようなもの
     public function bind(Author $author)
     {
         $data = [
             'item'=>$author,
         ];
         return view('author.binds', $data);
+    }
+
+    public function verror()
+    {
+        return view('verror');
     }
 }
