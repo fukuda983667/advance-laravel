@@ -21,10 +21,11 @@
     <tr>
         <th>Books</th>
     </tr>
+    <!-- index.blade.php(このファイル)でいう$itemsはAuthorControllerのindexメソッド内の'items'を指す。 -->
     @foreach ($items as $item)
         <tr>
             <td>
-            {{$item->getTitle()}}
+                {{$item->getTitle()}}
             </td>
         </tr>
     @endforeach

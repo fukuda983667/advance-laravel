@@ -10,6 +10,7 @@ class BookController extends Controller
     public function index()
     {
         $items = Book::all();
+        // $itemsは二次元配列
         return view('book.index', ['items'=>$items]);
     }
 
@@ -19,6 +20,7 @@ class BookController extends Controller
     }
 
     public function create(Request $request){
+        // Bookモデルのrules(バリデーションルール)を参照して合致するか判定。
         $this->validate($request, Book::$rules);
         $form = $request->all();
         Book::create($form);

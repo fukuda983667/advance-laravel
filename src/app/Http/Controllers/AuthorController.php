@@ -12,6 +12,8 @@ class AuthorController extends Controller
     public function index()
     {
         $authors = Author::all();
+        echo $authors;
+        // authorsは二次元配列
         return view('index', ['authors' => $authors]);
     }
 
@@ -97,5 +99,11 @@ class AuthorController extends Controller
     public function verror()
     {
         return view('verror');
+    }
+
+    public function relate(Request $request)
+    {
+        $items = Author::all();
+        return view('author.index', ['items' => $items]);
     }
 }
