@@ -25,7 +25,6 @@
     @foreach ($authors as $author)
         <tr>
         <td>{{$author->getDetail()}}</td>
-        <td>{{$author->id}}</td>
         </tr>
     @endforeach
 </table>
