@@ -11,8 +11,8 @@ class AuthorController extends Controller
 {
     public function index()
     {
-        $authors = Author::all();
         // authorsは二次元配列
+        $authors = Author::Paginate(4);
         return view('index', ['authors' => $authors]);
     }
 
